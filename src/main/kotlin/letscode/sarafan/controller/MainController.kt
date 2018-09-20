@@ -43,8 +43,10 @@ class MainController {
     }
 
     @DeleteMapping("{id}")
-    fun delete(@PathVariable id: String) {
-       messages.remove(getMessage(id))
+    fun delete(@PathVariable id: String): String {
+        messages.remove(getMessage(id))
+
+        return "OK"
     }
 
 }
