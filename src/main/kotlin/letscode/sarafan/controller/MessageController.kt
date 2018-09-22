@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("message")
-class MainController(private val messageRepo: MessageRepo) {
+class MessageController(private val messageRepo: MessageRepo) {
 
     @GetMapping
     @JsonView(Views.IdName::class)
