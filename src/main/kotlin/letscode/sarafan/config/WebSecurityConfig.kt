@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import java.time.LocalDateTime
-import java.util.function.Supplier
 
 @Configuration
 @EnableWebSecurity
@@ -18,9 +17,17 @@ import java.util.function.Supplier
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
-        http.authorizeRequests()
-                .mvcMatchers("/").permitAll()
-                .anyRequest().authenticated()
+        http
+                .antMatcher("/**")
+                    .authorizeRequests()
+                .antMatchers("/", "/login", "/js/**", "error")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                .and()
+                    .logout()
+                    .logoutSuccessUrl("/")
+                    .permitAll()
                 .and().csrf().disable()
     }
 
