@@ -17,6 +17,9 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
+                include: [
+                    require.resolve("bootstrap-vue")
+                ],
                 exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: 'babel-loader',
@@ -24,10 +27,12 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
-            },
-            {
+            }, {
                 test: /\.vue$/,
                 loader: 'vue-loader'
+            }, {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ]
             }
         ]
     },
@@ -40,4 +45,4 @@ module.exports = {
             path.join(__dirname, 'node_modules'),
         ],
     }
-}
+};

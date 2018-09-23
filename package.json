@@ -5,6 +5,7 @@
   "author": "phpusr <phpusr@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bootstrap-vue": "^2.0.0-rc.11",
     "vue": "^2.5.17",
     "vue-resource": "^1.5.1"
   },
@@ -12,6 +13,8 @@
     "@babel/core": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "babel-loader": "^8.0.2",
+    "css-loader": "^1.0.0",
+    "style-loader": "^0.23.0",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.19.1",
