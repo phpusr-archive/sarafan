@@ -1,8 +1,12 @@
 <template>
-    <div>
-        <input type="text" placeholder="Write something" v-model="text"/>
-        <input type="button" value="Save" @click="save"/>
-    </div>
+    <b-form @submit="save">
+        <b-input-group class="my-3">
+            <b-form-input placeholder="Write something" v-model="text" />
+            <b-input-group-append>
+                <b-btn variant="outline-primary" @click="save">Save</b-btn>
+            </b-input-group-append>
+        </b-input-group>
+    </b-form>
 </template>
 
 <script>
@@ -31,7 +35,9 @@ export default {
         }
     },
     methods: {
-        save() {
+        save(evt) {
+            evt.preventDefault();
+
             const message = {text: this.text};
             if (this.id) {
                 this.$resource('/message{/id}').update({ id: this.id }, message)

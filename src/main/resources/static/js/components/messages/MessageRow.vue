@@ -1,11 +1,13 @@
 <template>
-    <div style="height: 30px;">
+    <b-list-group-item>
         <i>({{ message.id }})</i> {{ message.text }}
         <span style="position: absolute; right: 0;">
-            <input type="button" value="Edit" @click="edit" />
-            <input type="button" value="X" @click="del" />
+            <b-button variant="link" @click="edit">Edit</b-button>
+            <button type="button" class="close mr-2 mt-1" aria-label="Close" @click="del">
+              <span aria-hidden="true">&times;</span>
+            </button>
         </span>
-    </div>
+    </b-list-group-item>
 </template>
 
 <script>

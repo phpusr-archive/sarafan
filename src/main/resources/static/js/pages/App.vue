@@ -1,11 +1,16 @@
 <template>
-    <div>
+    <div class="p-5">
+        <h3>Sarafan</h3>
+
         <div v-if="!profile">
             <span>Необходимо авторизоваться через: </span>
             <a href="/login">Google</a>
         </div>
         <div v-else>
-            <div>{{ profile.name }} <a href="/logout">Log out</a></div>
+            <div>
+                <span>{{ profile.name }}</span>
+                <a href="/logout">Log out</a>
+            </div>
             <messages-list :messages="messages" />
         </div>
     </div>
