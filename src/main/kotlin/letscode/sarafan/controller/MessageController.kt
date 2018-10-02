@@ -5,6 +5,8 @@ import letscode.sarafan.domain.Message
 import letscode.sarafan.domain.MessageRepo
 import letscode.sarafan.domain.Views
 import org.springframework.beans.BeanUtils
+import org.springframework.messaging.handler.annotation.MessageMapping
+import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
@@ -39,6 +41,12 @@ class MessageController(private val messageRepo: MessageRepo) {
     fun delete(@PathVariable("id") message: Message): String {
         messageRepo.delete(message);
         return "OK"
+    }
+
+    @MessageMapping("/changeMessage")
+    @SendTo("/topic/activity")
+    fun change(message: Message): Message {
+        return messageRepo.save(message)
     }
 
 }
