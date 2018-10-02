@@ -45,8 +45,15 @@ class MessageController(private val messageRepo: MessageRepo) {
 
     @MessageMapping("/changeMessage")
     @SendTo("/topic/activity")
-    fun change(message: Message): Message {
+    fun changeMessage(message: Message): Message {
         return messageRepo.save(message)
+    }
+
+    @MessageMapping("/deleteMessage")
+    @SendTo("/topic/deleteMessage")
+    fun deleteMessage(message: Message): Long? {
+        messageRepo.delete(message)
+        return message.id
     }
 
 }

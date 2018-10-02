@@ -18,9 +18,9 @@ class User(
         val email: String,
         val gender: String?,
         val locale: String
-) :Serializable {
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-        lateinit var lastVisit: LocalDateTime
+) : Serializable {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    lateinit var lastVisit: LocalDateTime
 }
 
 interface UserDetailRepo : JpaRepository<User, String>

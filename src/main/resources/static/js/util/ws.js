@@ -9,14 +9,15 @@ export function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, frame => {
         console.log(`Connected: ${frame}`);
-        stompClient.subscribe('/topic/activity', message =>
-            handlers.forEach(handler => handler(JSON.parse(message.body)))
-        );
+
+        handlers.forEach(h => stompClient.subscribe(h.id, message =>
+            h.handler(JSON.parse(message.body))
+        ));
     });
 }
 
-export function addHandler(handler) {
-    handlers.push(handler);
+export function addHandler(id, handler) {
+    handlers.push({ id, handler });
 }
 
 export function disconnect() {
@@ -29,4 +30,8 @@ export function disconnect() {
 
 export function sendMessage(message) {
     stompClient.send("/app/changeMessage", {}, JSON.stringify(message));
+}
+
+export function deleteMessage(messageId) {
+    stompClient.send("/app/deleteMessage", {}, JSON.stringify({id: messageId}));
 }

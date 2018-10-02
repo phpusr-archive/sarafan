@@ -15,7 +15,7 @@ data class Message(
         val id: Long?,
 
         @JsonView(Views.IdName::class)
-        var text: String,
+        var text: String?,
 
         @Column(updatable = false)
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

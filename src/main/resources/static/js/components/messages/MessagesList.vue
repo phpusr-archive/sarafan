@@ -15,6 +15,7 @@
 <script>
     import MessageRow from 'components/messages/MessageRow.vue'
     import MessageForm from 'components/messages/MessageForm.vue'
+    import {deleteMessage} from 'util/ws';
 
     export default {
         components: { MessageRow, MessageForm },
@@ -27,12 +28,7 @@
                 this.message = message
             },
             deleteMessage(message) {
-                this.$resource('/message{/id}').remove({id: message.id}).then(result => {
-                    if (result.ok) {
-                        const index = this.messages.indexOf(message);
-                        this.messages.splice(index, 1);
-                    }
-                })
+                deleteMessage(message.id)
             }
         }
     }
