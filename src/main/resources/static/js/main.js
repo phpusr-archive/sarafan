@@ -7,7 +7,9 @@ import {connect} from './util/ws'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-connect();
+if (frontendData.profile) {
+    connect();
+}
 
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
