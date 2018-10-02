@@ -8,6 +8,7 @@
         </div>
         <div v-else>
             <div>
+                <b-img rounded="circle" width="75" height="75" blank-color="#777" alt="img" class="m-1" :src="profile.userpic" />
                 <span>{{ profile.name }}</span>
                 <a href="/logout">Log out</a>
             </div>
