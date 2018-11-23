@@ -19,9 +19,6 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                include: [
-                    require.resolve("bootstrap-vue")
-                ],
                 exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: 'babel-loader',

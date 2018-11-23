@@ -5,7 +5,9 @@
             <v-spacer></v-spacer>
 
             <span v-if="profile">
-                <b-img rounded="circle" width="40" height="40" blank-color="#777" alt="img" class="m-1" :src="profile.userpic" />
+                <v-avatar :size="40" color="grey lighten-4">
+                    <img :src="profile.userpic" alt="avatar">
+                </v-avatar>
 
                 <v-btn icon href="/logout">
                     <v-icon>exit_to_app</v-icon>
