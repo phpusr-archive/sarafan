@@ -49,7 +49,7 @@
             });
             addHandler('/topic/deleteMessage', messageId => {
                 if (messageId >= 0) {
-                    const index = getIndex(messageId);
+                    const index = getIndex(this.messages, messageId);
                     this.messages.splice(index, 1);
                 }
             });
