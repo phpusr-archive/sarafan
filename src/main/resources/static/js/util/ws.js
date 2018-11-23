@@ -7,9 +7,8 @@ const handlers = [];
 export function connect() {
     const socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
+    stompClient.debug = () => {};
     stompClient.connect({}, frame => {
-        console.log(`Connected: ${frame}`);
-
         handlers.forEach(h => stompClient.subscribe(h.id, message =>
             h.handler(JSON.parse(message.body))
         ));

@@ -1,11 +1,9 @@
 <template>
 
-    <b-input-group class="my-3">
-        <b-form-input placeholder="Write something" v-model="text" @keyup.enter.native="save" />
-        <b-input-group-append>
-            <b-btn variant="outline-primary" @click="save">Save</b-btn>
-        </b-input-group-append>
-    </b-input-group>
+    <v-layout>
+        <v-text-field label="New message" placeholder="Write something" v-model="text" @keyup.enter.native="save" />
+        <v-btn @click="save">Save</v-btn>
+    </v-layout>
 
 </template>
 

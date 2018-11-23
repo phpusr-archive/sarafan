@@ -1,13 +1,15 @@
 <template>
-    <b-list-group-item>
-        <i>({{ message.id }})</i> {{ message.text }}
-        <span style="position: absolute; right: 0;">
-            <b-button variant="link" @click="edit">Edit</b-button>
-            <button type="button" class="close mr-2 mt-1" aria-label="Close" @click="del">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </span>
-    </b-list-group-item>
+    <v-card class="my-2">
+        <v-card-text primary-title>
+            <i>({{ message.id }})</i> {{ message.text }}
+        </v-card-text>
+        <v-card-actions>
+            <v-btn small flat round @click="edit">Edit</v-btn>
+            <v-btn icon small @click="del">
+              <v-icon>delete</v-icon>
+            </v-btn>
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script>

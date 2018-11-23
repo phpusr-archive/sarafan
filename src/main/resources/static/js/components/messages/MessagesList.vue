@@ -1,15 +1,13 @@
 <template>
-    <div style="position: relative; width: 300px;">
+    <v-layout align-space-around justify-start column>
         <message-form :messages="messages" :messageAttr="message" />
-        <b-list-group>
-            <message-row v-for="m in messages"
-                         :key="m.id"
-                         :message="m"
-                         :editMessage="editMessage"
-                         :deleteMessage="deleteMessage"
-                         :messages="messages" />
-        </b-list-group>
-    </div>
+        <message-row v-for="m in sortedMessages"
+                     :key="m.id"
+                     :message="m"
+                     :editMessage="editMessage"
+                     :deleteMessage="deleteMessage"
+                     :messages="messages" />
+    </v-layout>
 </template>
 
 <script>
@@ -22,6 +20,11 @@
         props: ['messages'],
         data() {
             return { message: null }
+        },
+        computed: {
+            sortedMessages() {
+                return this.messages.sort((a, b) => -(a.id - b.id));
+            }
         },
         methods: {
             editMessage(message) {

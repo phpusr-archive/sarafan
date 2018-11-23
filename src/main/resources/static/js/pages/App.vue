@@ -1,20 +1,28 @@
 <template>
-    <div class="p-5">
-        <h3>Sarafan</h3>
+    <v-app>
+        <v-toolbar app>
+            <v-toolbar-title>Sarafan</v-toolbar-title>
+            <v-spacer></v-spacer>
 
-        <div v-if="!profile">
-            <span>Необходимо авторизоваться через: </span>
-            <a href="/login">Google</a>
-        </div>
-        <div v-else>
-            <div>
-                <b-img rounded="circle" width="75" height="75" blank-color="#777" alt="img" class="m-1" :src="profile.userpic" />
-                <span>{{ profile.name }}</span>
-                <a href="/logout">Log out</a>
-            </div>
-            <messages-list :messages="messages" />
-        </div>
-    </div>
+            <span v-if="profile">
+                <b-img rounded="circle" width="40" height="40" blank-color="#777" alt="img" class="m-1" :src="profile.userpic" />
+
+                <v-btn icon href="/logout">
+                    <v-icon>exit_to_app</v-icon>
+                </v-btn>
+            </span>
+        </v-toolbar>
+        <v-content>
+            <v-container v-if="!profile">
+                <span>Необходимо авторизоваться через: </span>
+                <a href="/login">Google</a>
+            </v-container>
+            <v-container v-else>
+                <messages-list :messages="messages" />
+            </v-container>
+        </v-content>
+
+    </v-app>
 </template>
 
 <script>
@@ -50,5 +58,4 @@
 </script>
 
 <style>
-
 </style>

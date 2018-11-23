@@ -23,8 +23,11 @@ class MainController(
             model: Model,
             @AuthenticationPrincipal user: User?
     ): String {
-        model["frontendData"] = mapOf("profile" to user, "messages" to messageRepo.findAll())
+        model["frontendData"] = if (user != null) {
+            mapOf("profile" to user, "messages" to messageRepo.findAll())
+        } else mapOf()
         model["isDevMode"] = profile == "dev"
+
         return "index"
     }
 
