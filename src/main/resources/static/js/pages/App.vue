@@ -30,7 +30,6 @@
 <script>
     import MessagesList from 'components/messages/MessagesList.vue'
     import {addHandler} from "util/ws";
-    import {getIndex, stompClient} from "util/collections"
 
     export default {
         components: { MessagesList },
@@ -42,17 +41,27 @@
         },
         created() {
             addHandler('/topic/activity', data => {
-                const index = getIndex(this.messages, data.id);
-                if (index > -1) {
-                    this.messages.splice(index, 1, data);
+                if (data.objectType === 'Message') {
+                    const index = this.messages.findIndex(item => item.id === data.body.id);
+                    switch(data.eventType) {
+                        case 'Create':
+                        case 'Update':
+                            if (index > -1) {
+                                this.messages.splice(index, 1, data.body);
+                            } else {
+                                this.messages.push(data.body);
+                            }
+                            break;
+                        case 'Remove':
+                            if (index > -1) {
+                                this.messages.splice(index, 1);
+                            }
+                            break;
+                        default:
+                            console.error(`Looks like the event type is unknown "${data.eventType}"`);
+                    }
                 } else {
-                    this.messages.push(data);
-                }
-            });
-            addHandler('/topic/deleteMessage', messageId => {
-                if (messageId >= 0) {
-                    const index = getIndex(this.messages, messageId);
-                    this.messages.splice(index, 1);
+                    console.error(`Looks like the object type is unknown "${data.objectType}"`);
                 }
             });
         }
