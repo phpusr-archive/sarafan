@@ -5,11 +5,13 @@
   "author": "phpusr <phpusr@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "@stomp/stompjs": "^5.0.0-beta.4",
     "sockjs-client": "^1.3.0",
     "vue": "^2.5.17",
     "vue-resource": "^1.5.1",
-    "vuetify": "^1.3.9"
+    "vuetify": "^1.3.9",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",
@@ -21,7 +23,7 @@
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.19.1",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.8"
+    "webpack-dev-server": "^3.1.11"
   },
   "scripts": {
     "start": "webpack-dev-server",

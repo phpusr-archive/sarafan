@@ -20,7 +20,7 @@
                 <a href="/login">Google</a>
             </v-container>
             <v-container v-else>
-                <messages-list :messages="messages" />
+                <messages-list />
             </v-container>
         </v-content>
 
@@ -30,32 +30,24 @@
 <script>
     import MessagesList from 'components/messages/MessagesList.vue'
     import {addHandler} from "util/ws";
+    import {mapState, mapMutations} from 'vuex'
 
     export default {
         components: { MessagesList },
-        data() {
-            return {
-                messages: frontendData.messages,
-                profile: frontendData.profile
-            }
-        },
+        computed: mapState(['profile']),
+        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
         created() {
             addHandler('/topic/activity', data => {
                 if (data.objectType === 'Message') {
-                    const index = this.messages.findIndex(item => item.id === data.body.id);
                     switch(data.eventType) {
                         case 'Create':
+                            this.addMessageMutation(data.body);
+                            break;
                         case 'Update':
-                            if (index > -1) {
-                                this.messages.splice(index, 1, data.body);
-                            } else {
-                                this.messages.push(data.body);
-                            }
+                            this.updateMessageMutation(data.body);
                             break;
                         case 'Remove':
-                            if (index > -1) {
-                                this.messages.splice(index, 1);
-                            }
+                            this.removeMessageMutation(data.body);
                             break;
                         default:
                             console.error(`Looks like the event type is unknown "${data.eventType}"`);
