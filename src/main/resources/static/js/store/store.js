@@ -15,19 +15,16 @@ export default new Vuex.Store({
     },
     mutations: {
         addMessageMutation(state, message) {
-            state.messages = [...state.messages, message];
+            state.messages.push(message);
         },
         updateMessageMutation(state, message) {
             const index = state.messages.findIndex(item => item.id === message.id);
-            state.messages = [...state.messages.slice(0, index), message, ...state.messages.slice(index + 1)]
+            state.messages.splice(index, 1, message);
         },
         removeMessageMutation(state, message) {
             const index = state.messages.findIndex(item => item.id === message.id);
             if (index > -1) {
-                state.messages = [
-                    ...state.messages.slice(0, index),
-                    ...state.messages.slice(index + 1)
-                ]
+                state.messages.splice(index, 1);
             }
         },
     },
