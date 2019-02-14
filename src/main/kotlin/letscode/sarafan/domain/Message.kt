@@ -20,7 +20,19 @@ data class Message(
         @Column(updatable = false)
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         @JsonView(Views.FullMessage::class)
-        var creationDate: LocalDateTime?
+        var creationDate: LocalDateTime?,
+
+        @JsonView(Views.FullMessage::class)
+        var link: String?,
+
+        @JsonView(Views.FullMessage::class)
+        var linkTitle: String?,
+
+        @JsonView(Views.FullMessage::class)
+        var linkDescription: String?,
+
+        @JsonView(Views.FullMessage::class)
+        var linkCover: String?
 )
 
 interface MessageRepo : JpaRepository<Message, Long>
