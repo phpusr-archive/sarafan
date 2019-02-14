@@ -20,7 +20,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
         http
                 .antMatcher("/**")
                     .authorizeRequests()
-                .antMatchers("/", "/login", "/js/**", "error")
+                .antMatchers("/", "/auth", "/login", "/js/**", "error")
                     .permitAll()
                     .anyRequest()
                     .authenticated()

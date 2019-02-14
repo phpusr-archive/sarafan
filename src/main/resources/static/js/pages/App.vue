@@ -2,12 +2,15 @@
     <v-app>
         <v-toolbar app>
             <v-toolbar-title>Sarafan</v-toolbar-title>
+            <v-btn v-if="profile" flat to="/">Messages</v-btn>
             <v-spacer></v-spacer>
 
             <span v-if="profile">
-                <v-avatar :size="40" color="grey lighten-4">
-                    <img :src="profile.userpic" alt="avatar">
-                </v-avatar>
+                <v-btn icon to="/profile">
+                    <v-avatar :size="40" color="grey lighten-4">
+                        <img :src="profile.userpic" alt="avatar">
+                    </v-avatar>
+                </v-btn>
 
                 <v-btn icon href="/logout">
                     <v-icon>exit_to_app</v-icon>
@@ -15,25 +18,17 @@
             </span>
         </v-toolbar>
         <v-content>
-            <v-container v-if="!profile">
-                <span>Необходимо авторизоваться через: </span>
-                <a href="/login">Google</a>
-            </v-container>
-            <v-container v-else>
-                <messages-list />
-            </v-container>
+            <router-view></router-view>
         </v-content>
 
     </v-app>
 </template>
 
 <script>
-    import MessagesList from 'components/messages/MessagesList.vue'
     import {addHandler} from "util/ws";
     import {mapState, mapMutations} from 'vuex'
 
     export default {
-        components: { MessagesList },
         computed: mapState(['profile']),
         methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
         created() {
@@ -56,6 +51,11 @@
                     console.error(`Looks like the object type is unknown "${data.objectType}"`);
                 }
             });
+        },
+        beforeMount() {
+            if (!this.profile) {
+                this.$router.replace('/auth')
+            }
         }
     }
 </script>
