@@ -14,8 +14,8 @@
         props: ['src'],
         computed: {
             targetSrc() {
-                const parts = this.src.split('/')
-                return `https://www.youtube.com/embed/${parts[parts.length - 1]}`
+                const matcher = this.src.match(/.*\/(watch\?v=)?(\w*)/)
+                return `https://www.youtube.com/embed/${matcher[2]}`
             }
         }
     }
