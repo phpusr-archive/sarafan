@@ -3,6 +3,7 @@ package letscode.sarafan.controller
 import com.fasterxml.jackson.annotation.JsonView
 import letscode.sarafan.domain.Message
 import letscode.sarafan.domain.MessageRepo
+import letscode.sarafan.domain.User
 import letscode.sarafan.domain.Views
 import letscode.sarafan.dto.EventType
 import letscode.sarafan.dto.MetaDto
@@ -13,6 +14,7 @@ import org.jsoup.nodes.Element
 import org.springframework.beans.BeanUtils
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 import java.util.function.BiConsumer
@@ -42,9 +44,13 @@ class MessageController(
 
     @PostMapping
     @JsonView(Views.FullMessage::class)
-    fun create(@RequestBody message: Message): Message {
+    fun create(
+            @RequestBody message: Message,
+            @AuthenticationPrincipal user: User
+    ): Message {
         message.creationDate = LocalDateTime.now()
         fillMeta(message)
+        message.author = user
         val createdMessage = messageRepo.save(message)
         messageSender.accept(EventType.Create, createdMessage)
 
@@ -57,7 +63,7 @@ class MessageController(
             @PathVariable("id") dbMessage: Message,
             @RequestBody message: Message
     ): Message {
-        BeanUtils.copyProperties(message, dbMessage, "id")
+        BeanUtils.copyProperties(message, dbMessage, "id", "author", "comments")
         fillMeta(dbMessage)
         val updatedMessage = messageRepo.save(dbMessage)
         messageSender.accept(EventType.Update, updatedMessage)

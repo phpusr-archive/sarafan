@@ -1,10 +1,13 @@
 <template>
-
     <v-layout>
-        <v-text-field label="New message" placeholder="Write something" v-model="text" @keyup.enter.native="save" />
+        <v-text-field
+                label="New message"
+                placeholder="Write something"
+                v-model="text"
+                @keyup.enter="save"
+        />
         <v-btn @click="save">Save</v-btn>
     </v-layout>
-
 </template>
 
 <script>

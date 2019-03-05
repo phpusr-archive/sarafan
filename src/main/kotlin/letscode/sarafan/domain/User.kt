@@ -1,6 +1,7 @@
 package letscode.sarafan.domain
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonView
 import org.springframework.data.jpa.repository.JpaRepository
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -12,8 +13,11 @@ import javax.persistence.Table
 @Table(name = "usr")
 class User(
         @Id
+        @JsonView(Views.IdName::class)
         val id: String,
+        @JsonView(Views.IdName::class)
         val name: String,
+        @JsonView(Views.IdName::class)
         val userpic: String,
         val email: String,
         val gender: String?,

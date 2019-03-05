@@ -2,6 +2,7 @@ package letscode.sarafan.domain
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonView
+import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -22,6 +23,14 @@ data class Message(
         @JsonView(Views.FullMessage::class)
         var creationDate: LocalDateTime?,
 
+        @ManyToOne
+        @JsonView(Views.FullMessage::class)
+        var author: User?,
+
+        @OneToMany(mappedBy = "message", orphanRemoval = true)
+        @JsonView(Views.FullMessage::class)
+        var comments: List<Comment>?,
+
         @JsonView(Views.FullMessage::class)
         var link: String?,
 
@@ -35,4 +44,7 @@ data class Message(
         var linkCover: String?
 )
 
-interface MessageRepo : JpaRepository<Message, Long>
+interface MessageRepo : JpaRepository<Message, Long> {
+    @EntityGraph(attributePaths = ["comments"])
+    override fun findAll(): List<Message>
+}

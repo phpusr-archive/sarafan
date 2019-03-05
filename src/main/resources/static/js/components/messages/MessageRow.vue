@@ -10,15 +10,18 @@
               <v-icon>delete</v-icon>
             </v-btn>
         </v-card-actions>
+
+        <comment-list :message-id="message.id" :comments="message.comments" />
     </v-card>
 </template>
 
 <script>
     import {mapActions} from 'vuex'
     import Media from '../media/Media.vue'
+    import CommentList from "../comment/CommentList.vue"
 
     export default {
-        components: {Media},
+        components: {CommentList, Media},
         props: ['message', 'editMessage'],
         methods: {
             ...mapActions(['removeMessageAction']),
