@@ -31,6 +31,11 @@ export default new Vuex.Store({
         addCommentMutation(state, comment) {
             const index = state.messages.findIndex(item => item.id === comment.message.id);
             const message = state.messages[index]
+
+            if (message.comments && message.comments.find(it => it.id === comment.id)) {
+                return
+            }
+
             if (message.comments) {
                 message.comments.push(comment)
             } else {
@@ -64,7 +69,7 @@ export default new Vuex.Store({
         async addCommentAction({commit, state}, comment) {
             const response = await commentApi.add(comment)
             const data = await response.json()
-            commit('addCommentMutation', comment)
+            commit('addCommentMutation', data)
         }
     }
 });

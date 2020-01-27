@@ -16,11 +16,12 @@ class Comment(
 
         @ManyToOne
         @JoinColumn(name = "message_id")
+        @JsonView(Views.FullComment::class)
         val message: Message,
 
         @ManyToOne
         @JoinColumn(name = "user_id", nullable = false, updatable = false)
-        @JsonView(Views.FullMessage::class)
+        @JsonView(Views.IdName::class)
         var author: User?
 )
 

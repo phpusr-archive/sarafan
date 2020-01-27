@@ -6,7 +6,7 @@
             <comment-item :comment="item" />
         </template>
 
-        <comment-form :message-id="messageId" />
+        <comment-form :message-id="messageId" class="px-3" />
     </v-list>
 </template>
 

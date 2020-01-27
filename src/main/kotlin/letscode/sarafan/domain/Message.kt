@@ -1,7 +1,6 @@
 package letscode.sarafan.domain
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonView
+import com.fasterxml.jackson.annotation.*
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDateTime

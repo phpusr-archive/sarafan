@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 class CommentController(private val commentService: CommentService) {
 
     @PostMapping
-    @JsonView(Views.FullMessage::class)
+    @JsonView(Views.FullComment::class)
     fun create(
             @RequestBody comment: Comment,
             @AuthenticationPrincipal user: User

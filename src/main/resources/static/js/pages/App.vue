@@ -30,7 +30,12 @@
 
     export default {
         computed: mapState(['profile']),
-        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+        methods: mapMutations([
+            'addMessageMutation',
+            'updateMessageMutation',
+            'removeMessageMutation',
+            'addCommentMutation'
+        ]),
         created() {
             addHandler('/topic/activity', data => {
                 if (data.objectType === 'Message') {
@@ -43,6 +48,14 @@
                             break;
                         case 'Remove':
                             this.removeMessageMutation(data.body);
+                            break;
+                        default:
+                            console.error(`Looks like the event type is unknown "${data.eventType}"`);
+                    }
+                } else if (data.objectType === 'Comment') {
+                    switch(data.eventType) {
+                        case 'Create':
+                            this.addCommentMutation(data.body);
                             break;
                         default:
                             console.error(`Looks like the event type is unknown "${data.eventType}"`);
