@@ -6,6 +6,7 @@
                          :key="m.id"
                          :message="m"
                          :editMessage="editMessage" />
+            <lazy-loader/>
         </v-layout>
     </v-container>
 </template>
@@ -13,10 +14,11 @@
 <script>
     import MessageRow from '../components/messages/MessageRow.vue'
     import MessageForm from '../components/messages/MessageForm.vue'
+    import LazyLoader from '../components/LazyLoader.vue'
     import {mapGetters} from 'vuex'
 
     export default {
-        components: { MessageRow, MessageForm },
+        components: { MessageRow, MessageForm, LazyLoader },
         data() {
             return { message: null }
         },

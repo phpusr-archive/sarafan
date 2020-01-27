@@ -1,6 +1,8 @@
 package letscode.sarafan.domain
 
 import com.fasterxml.jackson.annotation.*
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDateTime
@@ -45,5 +47,5 @@ data class Message(
 
 interface MessageRepo : JpaRepository<Message, Long> {
     @EntityGraph(attributePaths = ["comments"])
-    override fun findAll(): List<Message>
+    override fun findAll(pageable: Pageable): Page<Message>
 }
