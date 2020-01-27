@@ -2,6 +2,7 @@ package letscode.sarafan.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import letscode.sarafan.domain.User
+import letscode.sarafan.domain.UserDetailRepo
 import letscode.sarafan.domain.Views
 import letscode.sarafan.service.MessageService
 import org.springframework.beans.factory.annotation.Value
@@ -18,13 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/")
 class MainController(
         private val messageService: MessageService,
+        private val userDetailRepo: UserDetailRepo,
         @Value("\${spring.profiles.active}")
         private val profile: String,
         mapper: ObjectMapper
 ) {
-    private val writer = mapper
-            .setConfig(mapper.serializationConfig)
-            .writerWithView(Views.FullMessage::class.java)
+
+    private val config = mapper.setConfig(mapper.serializationConfig)
+    private val messageWriter = config.writerWithView(Views.FullMessage::class.java)
+    private val profileWriter = config.writerWithView(Views.FullProfile::class.java)
 
     @GetMapping
     fun main(
@@ -32,18 +35,21 @@ class MainController(
             @AuthenticationPrincipal user: User?
     ): String {
         if (user != null) {
+            val dbUser = userDetailRepo.findById(user.id).get()
+            model["profile"] = profileWriter.writeValueAsString(dbUser)
+
             val sort = Sort.by(Sort.Direction.DESC, "id")
             val pageable = PageRequest.of(0, MessageController.MessagesPerPage, sort)
             val messagePageDto = messageService.list(pageable)
-            val messages = writer.writeValueAsString(messagePageDto.messages)
+            val messages = messageWriter.writeValueAsString(messagePageDto.messages)
             model["messages"] = messages
             model["frontendData"] = mapOf(
-                    "profile" to user,
                     "currentPage" to messagePageDto.currentPage,
                     "totalPages" to messagePageDto.totalPages
             )
         } else {
             model["messages"] = listOf<Any>()
+            model["profile"] = "null"
             model["frontendData"] = mapOf<String, Any>()
         }
         model["isDevMode"] = profile == "dev"

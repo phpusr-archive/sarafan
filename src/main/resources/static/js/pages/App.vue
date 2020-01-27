@@ -6,7 +6,7 @@
             <v-spacer></v-spacer>
 
             <span v-if="profile">
-                <v-btn icon to="/profile">
+                <v-btn icon to="/user">
                     <v-avatar :size="40" color="grey lighten-4">
                         <img :src="profile.userpic" alt="avatar">
                     </v-avatar>

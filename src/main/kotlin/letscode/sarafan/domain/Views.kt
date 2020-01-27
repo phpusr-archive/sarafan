@@ -5,4 +5,5 @@ object Views {
     interface IdName : Id
     interface FullComment : IdName
     interface FullMessage : IdName
+    interface FullProfile : IdName
 }
