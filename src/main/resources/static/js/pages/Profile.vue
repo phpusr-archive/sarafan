@@ -29,6 +29,7 @@
 
 <script>
     import profileApi from '../api/profile'
+    import {mapActions} from 'vuex'
 
     export default {
         name: "Profile",
@@ -48,9 +49,11 @@
             }
         },
         methods: {
+            ...mapActions(["reloadMessagesAction"]),
             async changeSubscription() {
                 const data = await profileApi.changeSubscription(this.profile.id)
                 this.profile = await data.json()
+                this.reloadMessagesAction()
             },
             async updateProfile() {
                 const id = this.$route.params.id || this.$store.state.profile.id

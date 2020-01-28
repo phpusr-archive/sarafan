@@ -16,6 +16,9 @@ export default new Vuex.Store({
             state.messages.sort((a, b) => -(a.id - b.id))
     },
     mutations: {
+        setMessagesMutation(state, messages) {
+            state.messages = messages
+        },
         addMessageMutation(state, message) {
             state.messages.push(message);
         },
@@ -60,6 +63,14 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        async reloadMessagesAction({commit, state}) {
+            const response = await messagesApi.page(0)
+            const data = await response.json()
+
+            commit('setMessagesMutation', data.messages)
+            commit('updateTotalPagesMutation', data.totalPages)
+            commit('updateCurrentPageMutation', 0)
+        },
         async addMessageAction({commit, state}, message) {
             const result = await messagesApi.add(message);
             const data = await result.json();
