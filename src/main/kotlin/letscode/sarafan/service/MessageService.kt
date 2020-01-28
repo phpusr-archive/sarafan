@@ -1,9 +1,6 @@
 package letscode.sarafan.service
 
-import letscode.sarafan.domain.Message
-import letscode.sarafan.domain.MessageRepo
-import letscode.sarafan.domain.User
-import letscode.sarafan.domain.Views
+import letscode.sarafan.domain.*
 import letscode.sarafan.dto.EventType
 import letscode.sarafan.dto.MessagePageDto
 import letscode.sarafan.dto.MetaDto
@@ -21,9 +18,9 @@ import java.util.regex.Pattern
 @Service
 class MessageService(
         private val messageRepo: MessageRepo,
-        private val wsSender: WsSender
+        private val wsSender: WsSender,
+        private val userSubscriptionRepo: UserSubscriptionRepo
 ) {
-
     private val UrlPattern = "https?:\\/\\/?[\\w\\d\\._\\-%\\/\\?=&#]+"
     private val ImagePattern = "\\.(jpeg|jpg|gif|png)$"
     private val UrlRegex = Pattern.compile(UrlPattern, Pattern.CASE_INSENSITIVE)
@@ -32,8 +29,11 @@ class MessageService(
     private val messageSender: BiConsumer<EventType, Message>
         get() = wsSender.getSender(ObjectType.Message, Views.IdName::class.java)
 
-    fun list(pageable: Pageable): MessagePageDto {
-        val page = messageRepo.findAll(pageable)
+    fun findForUser(pageable: Pageable, user: User): MessagePageDto {
+        var channels = userSubscriptionRepo.findBySubscriber(user).map { subscription -> subscription.channel }
+        channels = channels.toMutableList()
+        channels.add(user)
+        val page = messageRepo.findByAuthorIn(channels, pageable)
         return MessagePageDto(page.content, page.number, page.totalPages)
     }
 

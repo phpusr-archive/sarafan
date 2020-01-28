@@ -23,9 +23,10 @@ class MessageController(private val messageService: MessageService) {
     @GetMapping
     @JsonView(Views.FullMessage::class)
     fun list(
+            @AuthenticationPrincipal user: User,
             @PageableDefault(size=MessagesPerPage, sort=["id"], direction= Sort.Direction.DESC) pageable: Pageable
     ): MessagePageDto {
-        return messageService.list(pageable)
+        return messageService.findForUser(pageable, user)
     }
 
     @GetMapping("{id}")

@@ -29,31 +29,20 @@ class User(
     @JsonView(Views.FullProfile::class)
     lateinit var lastVisit: LocalDateTime
 
-    @ManyToMany
-    @JoinTable(
-            name="user_subscriptions",
-            joinColumns=[JoinColumn(name="subscriber_id")],
-            inverseJoinColumns=[JoinColumn(name="channel_id")])
-    @JsonView(Views.FullProfile::class)
-    @JsonIdentityReference
-    @JsonIdentityInfo(
-            property="id",
-            generator= ObjectIdGenerators.PropertyGenerator::class
+    @OneToMany(
+            mappedBy = "subscriber",
+            orphanRemoval = true
     )
-    val subscriptions: Set<User> = setOf()
+    @JsonView(Views.FullProfile::class)
+    val subscriptions: Set<UserSubscription> = setOf()
 
-    @ManyToMany
-    @JoinTable(
-            name="user_subscriptions",
-            joinColumns=[JoinColumn(name="channel_id")],
-            inverseJoinColumns=[JoinColumn(name="subscriber_id")])
-    @JsonView(Views.FullProfile::class)
-    @JsonIdentityReference
-    @JsonIdentityInfo(
-            property="id",
-            generator= ObjectIdGenerators.PropertyGenerator::class
+    @OneToMany(
+            mappedBy = "channel",
+            orphanRemoval = true,
+            cascade = [CascadeType.ALL]
     )
-    val subscribers: MutableSet<User> = mutableSetOf()
+    @JsonView(Views.FullProfile::class)
+    val subscribers: MutableSet<UserSubscription> = mutableSetOf()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

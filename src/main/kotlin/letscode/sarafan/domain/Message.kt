@@ -47,5 +47,5 @@ data class Message(
 
 interface MessageRepo : JpaRepository<Message, Long> {
     @EntityGraph(attributePaths = ["comments"])
-    override fun findAll(pageable: Pageable): Page<Message>
+    fun findByAuthorIn(users: List<User>, pageable: Pageable): Page<Message>
 }

@@ -44,7 +44,7 @@
             },
             isISubscribed() {
                 const subscribers = this.profile.subscribers
-                return subscribers && subscribers.find(it => it.id === this.$store.state.profile.id)
+                return subscribers && subscribers.find(it => it.subscriber === this.$store.state.profile.id)
             }
         },
         methods: {

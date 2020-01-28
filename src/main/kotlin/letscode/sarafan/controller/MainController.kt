@@ -40,7 +40,7 @@ class MainController(
 
             val sort = Sort.by(Sort.Direction.DESC, "id")
             val pageable = PageRequest.of(0, MessageController.MessagesPerPage, sort)
-            val messagePageDto = messageService.list(pageable)
+            val messagePageDto = messageService.findForUser(pageable, user)
             val messages = messageWriter.writeValueAsString(messagePageDto.messages)
             model["messages"] = messages
             model["frontendData"] = mapOf(
