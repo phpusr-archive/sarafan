@@ -8,7 +8,6 @@ import letscode.sarafan.dto.ObjectType
 import letscode.sarafan.util.WsSender
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -27,7 +26,7 @@ class MessageService(
     private val ImgRegex = Pattern.compile(ImagePattern, Pattern.CASE_INSENSITIVE)
 
     private val messageSender: BiConsumer<EventType, Message>
-        get() = wsSender.getSender(ObjectType.Message, Views.IdName::class.java)
+        get() = wsSender.getSender(ObjectType.Message, Views.FullMessage::class.java)
 
     fun findForUser(pageable: Pageable, user: User): MessagePageDto {
         var channels = userSubscriptionRepo.findBySubscriber(user)
@@ -50,7 +49,7 @@ class MessageService(
     }
 
     fun update(dbMessage: Message, message: Message): Message {
-        BeanUtils.copyProperties(message, dbMessage, "id", "author", "comments")
+        dbMessage.text = message.text
         fillMeta(dbMessage)
         val updatedMessage = messageRepo.save(dbMessage)
         messageSender.accept(EventType.Update, updatedMessage)

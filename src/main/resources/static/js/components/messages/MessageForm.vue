@@ -12,10 +12,9 @@
 
 <script>
 
-import {mapActions} from 'vuex'
+    import {mapActions} from 'vuex'
 
-export default {
-
+    export default {
     props: ['messageAttr'],
     data() {
         return {
