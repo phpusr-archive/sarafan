@@ -14,6 +14,10 @@ buildscript {
 	}
 }
 
+plugins {
+	id "com.moowork.node" version "1.3.1"
+}
+
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: "kotlin-jpa"
@@ -24,6 +28,15 @@ apply plugin: 'io.spring.dependency-management'
 group = 'letscode'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+task buildFront(type: YarnTask) {
+	args = ['build']
+}
+
+processResources.dependsOn(buildFront)
+buildFront.dependsOn(yarn_install)
+yarn_install.dependsOn(yarn_cache_clean)
+
 compileKotlin {
 	kotlinOptions {
 		freeCompilerArgs = ["-Xjsr305=strict"]

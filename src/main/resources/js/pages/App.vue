@@ -26,7 +26,7 @@
 
 <script>
     import {addHandler} from "util/ws";
-    import {mapState, mapMutations} from 'vuex'
+    import {mapMutations, mapState} from 'vuex'
 
     export default {
         computed: mapState(['profile']),

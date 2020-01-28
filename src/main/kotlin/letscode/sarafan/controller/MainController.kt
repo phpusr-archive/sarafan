@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class MainController(
         private val messageService: MessageService,
         private val userDetailRepo: UserDetailRepo,
-        @Value("\${spring.profiles.active}")
+        @Value("\${spring.profiles.active:prod}")
         private val profile: String,
         mapper: ObjectMapper
 ) {

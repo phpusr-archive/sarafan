@@ -4,6 +4,7 @@
 
 <script>
     import {mapActions} from 'vuex'
+
     export default {
         name: "LazyLoader",
         methods: mapActions(['loadPageAction']),
