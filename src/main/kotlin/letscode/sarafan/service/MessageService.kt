@@ -30,7 +30,9 @@ class MessageService(
         get() = wsSender.getSender(ObjectType.Message, Views.IdName::class.java)
 
     fun findForUser(pageable: Pageable, user: User): MessagePageDto {
-        var channels = userSubscriptionRepo.findBySubscriber(user).map { subscription -> subscription.channel }
+        var channels = userSubscriptionRepo.findBySubscriber(user)
+                .filter { subscription -> subscription.active }
+                .map { subscription -> subscription.channel }
         channels = channels.toMutableList()
         channels.add(user)
         val page = messageRepo.findByAuthorIn(channels, pageable)
